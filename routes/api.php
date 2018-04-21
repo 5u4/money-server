@@ -28,5 +28,10 @@ Route::group(['prefix' => 'v1'], function () {
     /* User */
     Route::group(['prefix' => 'users'], function () {
         Route::post('/', 'UserController@create');
+
+        /* Authorization Required */
+        Route::group(['middleware' => 'auth:api'], function () {
+            Route::delete('/', 'UserController@destroy');
+        });
     });
 });
