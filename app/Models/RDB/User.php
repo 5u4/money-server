@@ -14,7 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string name
  * @property string email
  * @property string password
- * @property string access_token
+ * @property string api_token
  * @property string ip
  * @property string created_at
  * @property string updated_at
@@ -39,7 +39,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'graph_id', 'name', 'email', 'password', 'access_token', 'ip'
+        'graph_id', 'name', 'email', 'password', 'api_token', 'ip'
     ];
 
     /**
@@ -48,6 +48,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'access_token', 'ip'
+        'password', 'api_token', 'ip'
     ];
 }

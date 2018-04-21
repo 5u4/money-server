@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('name', 60)->unique();
             $table->string('email', 60)->unique();
             $table->string('password', 60);
-            $table->string('access_token', 190)->unique();
+            $table->string('api_token', 190)->unique();
             $table->string('ip', 15);
             $table->timestamps();
             $table->softDeletes();
