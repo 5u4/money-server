@@ -78,6 +78,14 @@ return [
             'prefix' => '',
         ],
 
+        'neo4j' => [
+            'scheme' => env('DB_NEO4J_DATABASE', 'bolt'),
+            'username' => env('DB_NEO4J_USERNAME', 'neo4j'),
+            'password' => env('DB_NEO4J_PASSWORD', 'neo4j'),
+            'host' => env('DB_NEO4J_HOST', 'localhost'),
+            'port' => env('DB_NEO4J_PORT', '7687'),
+        ],
+
     ],
 
     /*
