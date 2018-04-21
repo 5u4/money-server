@@ -10,14 +10,18 @@ class UserService
 {
     /** @var EntityManager $entityManager */
     private $entityManager;
+    /** @var AuthService $authService */
+    private $authService;
 
     /**
      * UserService constructor.
      * @param EntityManager $entityManager
+     * @param AuthService $authService
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, AuthService $authService)
     {
         $this->entityManager = $entityManager;
+        $this->authService = $authService;
     }
 
     /**
@@ -61,5 +65,22 @@ class UserService
             'api_token' => str_random(User::ACCESS_TOKEN_LENGTH),
             'ip' => request()->ip()
         ]);
+    }
+
+    /**
+     * Soft delete current user
+     *
+     * @return bool
+     */
+    public function softDeleteCurrentUser(): bool
+    {
+        $user = $this->authService->getCurrentUser();
+
+        if ($user && !$user->trashed()) {
+            $user->delete();
+            return true;
+        }
+
+        return false;
     }
 }

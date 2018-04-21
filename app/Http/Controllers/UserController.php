@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\Create as CreateRequest;
-use App\Http\Services\AuthService;
 use App\Http\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -13,18 +12,14 @@ class UserController extends Controller
 {
     /** @var UserService $userService */
     private $userService;
-    /** @var AuthService $authService */
-    private $authService;
 
     /**
      * UserController constructor.
      * @param UserService $userService
-     * @param AuthService $authService
      */
-    public function __construct(UserService $userService, AuthService $authService)
+    public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->authService = $authService;
     }
 
     /**
@@ -59,15 +54,8 @@ class UserController extends Controller
      */
     public function destroy(): JsonResponse
     {
-        if ($user = $this->authService->getCurrentUser()) {
-            $user->delete();
-            return response()->json([
-                'success' => true
-            ], Response::HTTP_OK);
-        }
+        $success = $this->userService->softDeleteCurrentUser();
 
-        return response()->json([
-            'success' => false
-        ], Response::HTTP_BAD_REQUEST);
+        return response()->json(['success' => $success]);
     }
 }
