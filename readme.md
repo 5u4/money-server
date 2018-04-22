@@ -23,3 +23,21 @@ User can see all the actions done through log.
 ## API
 
  - [General](api/general.md)
+
+## Deployment
+
+1. Make sure [Neo4J](https://neo4j.com/) and a relational database is set.
+
+2. Rename [.env.example](.env.example) to `.env` and fill out the database credentials
+
+3. Install Dependencies
+
+```bash
+$ composer install
+```
+
+4. Migration
+
+```bash
+$ php artisan migrate
+```
