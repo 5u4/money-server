@@ -30,6 +30,16 @@ class StoreController extends Controller
     }
 
     /**
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        return response()->json(['data' => [
+            'stores' => $this->storeService->getUserStores()
+        ]]);
+    }
+
+    /**
      * @param CreateRequest $request
      * @return JsonResponse
      */

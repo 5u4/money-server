@@ -1,6 +1,32 @@
 # Store API Request/Response
 
+ - [Index](#index)
  - [Create](#create)
+
+## Index
+
+Required: `LOGIN`
+
+GET /api/v1/stores
+
+### Response
+
+```json
+{
+    "data": {
+        "stores": [
+            {
+                "id": 89,
+                "name": "McDonald's"
+            },
+            {
+                "id": 106,
+                "name": "KFC"
+            }
+        ]
+    }
+}
+```
 
 ## Create
 

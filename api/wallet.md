@@ -32,7 +32,6 @@ GET /api/v1/wallets
 }
 ```
 
-
 ## Create
 
 Required: `LOGIN`

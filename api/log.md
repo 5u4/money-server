@@ -37,6 +37,10 @@ GET /api/v1/logs
 ### Wallet
 
  - [CREATE_WALLET](#create_wallet)
+
+### Store
+
+ - [CREATE_STORE](#create_store)
  
 ## Auth
 
@@ -103,6 +107,21 @@ GET /api/v1/logs
     "timestamp": 1524371796,
     "data": {
         "wallet_id": 242
+    }
+}
+```
+
+## Store
+
+### CREATE_STORE
+
+```json
+{
+    "action": "CREATE_STORE",
+    "timestamp": 1524413142,
+    "data": {
+        "store_id": 106,
+        "ip": "127.0.0.1"
     }
 }
 ```

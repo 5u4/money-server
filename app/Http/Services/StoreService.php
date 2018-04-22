@@ -25,6 +25,34 @@ class StoreService
     }
 
     /**
+     * @return array|null
+     */
+    public function getUserStores()
+    {
+        /* Get User */
+        if (!$user = $this->authService->getCurrentUser()) {
+            return null;
+        }
+
+        /* Get User */
+        $userRepo = $this->entityManager->getRepository(User::class);
+
+        $user = $userRepo->findOneById($user->graph_id);
+
+        /* Create Store Objects */
+        $stores = [];
+
+        foreach ($user->getStores() as $store) {
+            $stores[] = [
+                'id' => $store->getId(),
+                'name' => $store->getName(),
+            ];
+        }
+
+        return $stores;
+    }
+
+    /**
      * @param string $name
      * @return int|null
      * @throws \Exception
