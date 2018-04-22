@@ -51,10 +51,10 @@ class Log
     /**
      * @var User[]
      *
-     * (:User)-[:is_logged]->(:Log)
+     * (:User)-[:IS_LOGGED]->(:Log)
      *
      * @OGM\Relationship(
-     *     type="is_logged", direction="INCOMING", collection=false,
+     *     type="IS_LOGGED", direction="INCOMING", collection=false,
      *     mappedBy="logs", targetEntity="User")
      */
     protected $user;

@@ -33,10 +33,10 @@ class Transaction
     /**
      * @var User[]
      *
-     * (:User)-[:has_tx]->(:Transaction)
+     * (:User)-[:HAS_TX]->(:Transaction)
      *
      * @OGM\Relationship(
-     *     type="has_tx", direction="INCOMING", collection=false,
+     *     type="HAS_TX", direction="INCOMING", collection=false,
      *     mappedBy="transactions", targetEntity="User")
      */
     protected $user;
@@ -44,10 +44,10 @@ class Transaction
     /**
      * @var Wallet[]
      *
-     * (:Wallet)-[:has_tx]->(:Transaction)
+     * (:Wallet)-[:HAS_TX]->(:Transaction)
      *
      * @OGM\Relationship(
-     *     type="has_tx", direction="INCOMING", collection=false,
+     *     type="HAS_TX", direction="INCOMING", collection=false,
      *     mappedBy="transactions", targetEntity="Wallet")
      */
     protected $wallet;
@@ -55,10 +55,10 @@ class Transaction
     /**
      * @var Store[]
      *
-     * (:Transaction)-[:in_store]->(:Store)
+     * (:Transaction)-[:IN_STORE]->(:Store)
      *
      * @OGM\Relationship(
-     *     type="in_store", direction="OUTGOING", collection=false,
+     *     type="IN_STORE", direction="OUTGOING", collection=false,
      *     mappedBy="transactions", targetEntity="Store")
      */
     protected $store;
@@ -66,10 +66,10 @@ class Transaction
     /**
      * @var Service[]
      *
-     * (:Wallet)-[:on_service]->(:Service)
+     * (:Wallet)-[:ON_SERVICE]->(:Service)
      *
      * @OGM\Relationship(
-     *     type="on_service", direction="OUTGOING", collection=false,
+     *     type="ON_SERVICE", direction="OUTGOING", collection=false,
      *     mappedBy="transactions", targetEntity="Service")
      */
     protected $service;

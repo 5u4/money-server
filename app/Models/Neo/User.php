@@ -27,10 +27,10 @@ class User
     /**
      * @var Wallet[]|Collection
      *
-     * (:User)-[:has_wallet]->(:Wallet)
+     * (:User)-[:HAS_WALLET]->(:Wallet)
      *
      * @OGM\Relationship(
-     *     type="has_wallet", direction="OUTGOING", collection=true,
+     *     type="HAS_WALLET", direction="OUTGOING", collection=true,
      *     mappedBy="users", targetEntity="Wallet")
      */
     protected $wallets;
@@ -38,10 +38,10 @@ class User
     /**
      * @var Store[]|Collection
      *
-     * (:User)-[:has_store]->(:Store)
+     * (:User)-[:HAS_STORE]->(:Store)
      *
      * @OGM\Relationship(
-     *     type="has_store", direction="OUTGOING", collection=true,
+     *     type="HAS_STORE", direction="OUTGOING", collection=true,
      *     mappedBy="user", targetEntity="Store")
      */
     protected $stores;
@@ -49,10 +49,10 @@ class User
     /**
      * @var Service[]|Collection
      *
-     * (:User)-[:has_service]->(:Service)
+     * (:User)-[:HAS_SERVICE]->(:Service)
      *
      * @OGM\Relationship(
-     *     type="has_service", direction="OUTGOING", collection=true,
+     *     type="HAS_SERVICE", direction="OUTGOING", collection=true,
      *     mappedBy="user", targetEntity="Service")
      */
     protected $services;
@@ -60,10 +60,10 @@ class User
     /**
      * @var Transaction[]|Collection
      *
-     * (:User)-[:has_tx]->(:Transaction)
+     * (:User)-[:HAS_TX]->(:Transaction)
      *
      * @OGM\Relationship(
-     *     type="has_tx", direction="OUTGOING", collection=true,
+     *     type="HAS_TX", direction="OUTGOING", collection=true,
      *     mappedBy="user", targetEntity="Transaction")
      */
     protected $transactions;
@@ -71,10 +71,10 @@ class User
     /**
      * @var Log[]|Collection
      *
-     * (:User)-[:is_logged]->(:Log)
+     * (:User)-[:IS_LOGGED]->(:Log)
      *
      * @OGM\Relationship(
-     *     type="is_logged", direction="OUTGOING", collection=true,
+     *     type="IS_LOGGED", direction="OUTGOING", collection=true,
      *     mappedBy="user", targetEntity="Log")
      */
     protected $logs;

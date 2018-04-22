@@ -27,10 +27,10 @@ class Service
     /**
      * @var User[]
      *
-     * (:User)-[:has_service]->(:Service)
+     * (:User)-[:HAS_SERVICE]->(:Service)
      *
      * @OGM\Relationship(
-     *     type="has_service", direction="INCOMING", collection=false,
+     *     type="HAS_SERVICE", direction="INCOMING", collection=false,
      *     mappedBy="services", targetEntity="User")
      */
     protected $user;
@@ -38,10 +38,10 @@ class Service
     /**
      * @var Store[]|Collection
      *
-     * (:Store)-[:provides]->(:Service)
+     * (:Store)-[:PROVIDES]->(:Service)
      *
      * @OGM\Relationship(
-     *     type="provides", direction="INCOMING", collection=true,
+     *     type="PROVIDES", direction="INCOMING", collection=true,
      *     mappedBy="services", targetEntity="Store")
      */
     protected $stores;
@@ -49,10 +49,10 @@ class Service
     /**
      * @var Transaction[]|Collection
      *
-     * (:Transaction)-[:on_service]->(:Service)
+     * (:Transaction)-[:ON_SERVICE]->(:Service)
      *
      * @OGM\Relationship(
-     *     type="on_service", direction="INCOMING", collection=true,
+     *     type="ON_SERVICE", direction="INCOMING", collection=true,
      *     mappedBy="service", targetEntity="Transaction")
      */
     protected $transactions;

@@ -34,15 +34,15 @@ class Wallet
      * @OGM\Property(type="int")
      * @var int
      */
-    protected $ownerGraphId;
+    protected $owner_graph_id;
 
     /**
      * @var User[]|Collection
      *
-     * (:User)-[:has_wallet]->(:Wallet)
+     * (:User)-[:HAS_WALLET]->(:Wallet)
      *
      * @OGM\Relationship(
-     *     type="has_wallet", direction="INCOMING", collection=true,
+     *     type="HAS_WALLET", direction="INCOMING", collection=true,
      *     mappedBy="wallets", targetEntity="User")
      */
     protected $users;
@@ -50,10 +50,10 @@ class Wallet
     /**
      * @var Transaction[]|Collection
      *
-     * (:Wallet)-[:has_tx]->(:Transaction)
+     * (:Wallet)-[:HAS_TX]->(:Transaction)
      *
      * @OGM\Relationship(
-     *     type="has_tx", direction="OUTGOING", collection=true,
+     *     type="HAS_TX", direction="OUTGOING", collection=true,
      *     mappedBy="wallet", targetEntity="Transaction")
      */
     protected $transactions;
@@ -68,7 +68,7 @@ class Wallet
     {
         $this->name = $name;
         $this->balance = $balance;
-        $this->ownerGraphId = $ownerGraphId;
+        $this->owner_graph_id = $ownerGraphId;
         $this->users = new Collection();
         $this->transactions = new Collection();
     }
@@ -102,7 +102,7 @@ class Wallet
      */
     public function getOwnerGraphId(): int
     {
-        return $this->ownerGraphId;
+        return $this->owner_graph_id;
     }
 
     /**
