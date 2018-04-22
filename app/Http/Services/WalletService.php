@@ -24,11 +24,36 @@ class WalletService
         $this->authService = $authService;
     }
 
+    public function getUserWallets()
+    {
+        /* Get User */
+        if (!$user = $this->authService->getCurrentUser()) {
+            return null;
+        }
+
+        /* Get Wallets */
+        $userRepo = $this->entityManager->getRepository(User::class);
+
+        $user = $userRepo->findOneById($user->graph_id);
+
+        /* Create Wallet Objects */
+        $wallets = [];
+
+        foreach ($user->getWallets() as $wallet) {
+            $wallets[] = [
+                'id' => $wallet->getId(),
+                'name' => $wallet->getName()
+            ];
+        }
+
+        return $wallets;
+    }
+
     /**
      * @param string $name
      * @throws \Exception
      */
-    public function createWallet(string $name)
+    public function createWallet(string $name): void
     {
         /* Get User */
         if (!$user = $this->authService->getCurrentUser()) {

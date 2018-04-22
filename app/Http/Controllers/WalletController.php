@@ -22,6 +22,18 @@ class WalletController extends Controller
     }
 
     /**
+     * Get current user's wallets
+     *
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        return response()->json(['data' => [
+            'wallets' => $this->walletService->getUserWallets()
+        ]]);
+    }
+
+    /**
      * @param CreateRequest $request
      * @return JsonResponse
      * @throws \Exception

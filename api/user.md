@@ -11,9 +11,9 @@ POST /api/v1/users
 
 ```json
 {
-	"name": "alex",
-	"email": "email@email.com",
-	"password": "password"
+    "name": "alex",
+    "email": "email@email.com",
+    "password": "password"
 }
 ```
 

@@ -37,6 +37,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     /* Wallet */
     Route::group(['prefix' => 'wallets', 'middleware' => 'auth:api'], function () {
+        Route::get('/', 'WalletController@index');
         Route::post('/', 'WalletController@create');
     });
 });
