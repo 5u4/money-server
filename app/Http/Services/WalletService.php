@@ -40,9 +40,12 @@ class WalletService
         $wallets = [];
 
         foreach ($user->getWallets() as $wallet) {
+            $owner = $userRepo->findOneById($wallet->getOwnerGraphId());
+
             $wallets[] = [
                 'id' => $wallet->getId(),
-                'name' => $wallet->getName()
+                'name' => $wallet->getName(),
+                'owner' => $owner->getName()
             ];
         }
 
@@ -61,7 +64,7 @@ class WalletService
         }
 
         /* Create Wallet */
-        $wallet = new Wallet($name);
+        $wallet = new Wallet($name, $user->graph_id);
 
         $this->entityManager->persist($wallet);
 

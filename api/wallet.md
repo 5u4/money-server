@@ -17,11 +17,13 @@ GET /api/v1/wallets
         "wallets": [
             {
                 "id": 3,
-                "name": "Cash"
+                "name": "Cash",
+                "owner": "alex"
             },
             {
-                "id": 139,
-                "name": "Cash"
+                "id": 41,
+                "name": "Cash",
+                "owner": "alex"
             }
         ]
     }

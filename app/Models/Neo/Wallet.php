@@ -25,10 +25,16 @@ class Wallet
     protected $name;
 
     /**
-     * @OGM\Property(type="string")
-     * @var string
+     * @OGM\Property(type="float")
+     * @var float
      */
     protected $balance;
+
+    /**
+     * @OGM\Property(type="int")
+     * @var int
+     */
+    protected $ownerGraphId;
 
     /**
      * @var User[]|Collection
@@ -55,12 +61,14 @@ class Wallet
     /**
      * Wallet constructor.
      * @param string $name
+     * @param int $ownerGraphId
      * @param float $balance
      */
-    public function __construct(string $name, float $balance = 0)
+    public function __construct(string $name, int $ownerGraphId, float $balance = 0)
     {
         $this->name = $name;
         $this->balance = $balance;
+        $this->ownerGraphId = $ownerGraphId;
         $this->users = new Collection();
         $this->transactions = new Collection();
     }
@@ -90,6 +98,14 @@ class Wallet
     }
 
     /**
+     * @return int
+     */
+    public function getOwnerGraphId(): int
+    {
+        return $this->ownerGraphId;
+    }
+
+    /**
      * @return User[]|Collection
      */
     public function getUsers()
@@ -103,5 +119,13 @@ class Wallet
     public function getTransactions()
     {
         return $this->transactions;
+    }
+
+    /**
+     * @param float $balance
+     */
+    public function setBalance(float $balance): void
+    {
+        $this->balance = $balance;
     }
 }
