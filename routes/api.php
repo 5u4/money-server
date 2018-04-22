@@ -34,4 +34,9 @@ Route::group(['prefix' => 'v1'], function () {
             Route::delete('/', 'UserController@destroy');
         });
     });
+
+    /* Wallet */
+    Route::group(['prefix' => 'wallets', 'middleware' => 'auth:api'], function () {
+        Route::post('/', 'WalletController@create');
+    });
 });

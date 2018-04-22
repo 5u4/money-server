@@ -3,10 +3,24 @@
 namespace App\Http\Services;
 
 use App\Models\RDB\User;
+use GraphAware\Neo4j\OGM\EntityManager;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Neo\User as NeoUser;
 
 class AuthService
 {
+    /** @var EntityManager */
+    private $entityManager;
+
+    /**
+     * AuthService constructor.
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function login(string $name, string $password)
     {
         if (Auth::attempt(['name' => $name, 'password' => $password])) {
@@ -46,5 +60,19 @@ class AuthService
         } else {
             return null;
         }
+    }
+
+    /**
+     * @return null|object
+     */
+    public function getCurrentUserInNeo()
+    {
+        $userRepo = $this->entityManager->getRepository(NeoUser::class);
+
+        if (!$user = $this->getCurrentUser()) {
+            return null;
+        }
+
+        return $userRepo->findOneById($user->graph_id);
     }
 }
