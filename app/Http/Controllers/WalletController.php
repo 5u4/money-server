@@ -44,7 +44,6 @@ class WalletController extends Controller
     /**
      * @param CreateRequest $request
      * @return JsonResponse
-     * @throws \Exception
      */
     public function create(CreateRequest $request): JsonResponse
     {

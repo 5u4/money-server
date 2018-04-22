@@ -29,6 +29,9 @@ class Log
     /* Wallet */
     public const CREATE_WALLET = 'CREATE_WALLET';
 
+    /* Store */
+    public const CREATE_STORE = 'CREATE_STORE';
+
     /**
      * @OGM\GraphId()
      * @var int

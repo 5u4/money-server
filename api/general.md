@@ -5,6 +5,7 @@
  - [Auth](auth.md)
  - [User](user.md)
  - [Wallet](wallet.md)
+ - [Store](store.md)
  - [Log](log.md)
 
 ## Notes
