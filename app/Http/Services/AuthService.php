@@ -61,18 +61,4 @@ class AuthService
             return null;
         }
     }
-
-    /**
-     * @return null|object
-     */
-    public function getCurrentUserInNeo()
-    {
-        $userRepo = $this->entityManager->getRepository(NeoUser::class);
-
-        if (!$user = $this->getCurrentUser()) {
-            return null;
-        }
-
-        return $userRepo->findOneById($user->graph_id);
-    }
 }

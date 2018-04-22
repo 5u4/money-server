@@ -4,3 +4,4 @@
 
  - [Auth](auth.md)
  - [User](user.md)
+ - [Wallet](wallet.md)

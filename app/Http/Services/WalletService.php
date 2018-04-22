@@ -26,42 +26,27 @@ class WalletService
 
     /**
      * @param string $name
-     * @return int
      * @throws \Exception
      */
-    public function createWallet(string $name): int
+    public function createWallet(string $name)
     {
-        $wallet = new Wallet($name);
-
-        $this->entityManager->persist($wallet);
-
-        $this->entityManager->flush();
-
-        return $wallet->getId();
-    }
-
-    /**
-     * @param int $walletId
-     * @throws \Exception
-     */
-    public function ownWallet(int $walletId)
-    {
+        /* Get User */
         if (!$user = $this->authService->getCurrentUser()) {
             return;
         }
 
-        $query = $this->entityManager->createQuery(
-            'MATCH (u:User) where ID(u)={user_id}
-            MATCH (w:Wallet) where ID(w)={wallet_id}
-            CREATE (u)-[r:has_wallet]->(w)'
-        );
+        /* Create Wallet */
+        $wallet = new Wallet($name);
 
-        $query->addEntityMapping('u', User::class);
-        $query->addEntityMapping('w', Wallet::class);
+        $this->entityManager->persist($wallet);
 
-        $query->setParameter('user_id', $user->graph_id);
-        $query->setParameter('wallet_id', $walletId);
+        /* Add Wallet To User */
+        $userRepo = $this->entityManager->getRepository(User::class);
 
-        $query->execute();
+        $user = $userRepo->findOneById($user->graph_id);
+
+        $user->getWallets()->add($wallet);
+
+        $this->entityManager->flush();
     }
 }
