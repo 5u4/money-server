@@ -39,7 +39,7 @@ class UserController extends Controller
     public function create(CreateRequest $request): JsonResponse
     {
         DB::transaction(function () use ($request) {
-            $neoUser = $this->userService->getNeoUser($request->name);
+            $neoUser = $this->userService->createNeoUser($request->name);
 
             $this->userService->createUserInRDB(
                 $neoUser->getId(),
@@ -50,7 +50,8 @@ class UserController extends Controller
 
             $this->logService->log($neoUser->getId(), Log::CREATE_USER, json_encode([
                 'name' => $request->name,
-                'email' => $request->email
+                'email' => $request->email,
+                'ip' => request()->ip()
             ]));
         });
 

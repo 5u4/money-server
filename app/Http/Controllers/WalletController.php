@@ -52,7 +52,8 @@ class WalletController extends Controller
             $walletId = $this->walletService->createWallet($request->name, $request->balance);
 
             $this->logService->log(Auth::user()->graph_id, Log::CREATE_WALLET, json_encode([
-                'wallet_id' => $walletId
+                'wallet_id' => $walletId,
+                'ip' => request()->ip()
             ]));
         });
 

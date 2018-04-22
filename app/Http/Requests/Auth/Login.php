@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class Login
  * @package App\Http\Requests\Auth
- * @property string name
+ * @property string email
  * @property string password
  */
 class Login extends FormRequest
@@ -30,7 +30,7 @@ class Login extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'exists:users', 'string', 'max:255', 'alpha_dash'],
+            'email' => ['required', 'exists:users', 'email', 'max:255'],
             'password' => ['required', 'string', 'max:255', 'min:6'],
         ];
     }

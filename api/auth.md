@@ -11,7 +11,7 @@ POST /api/v1/auth/login
 
 ```json
 {
-    "name": "username",
+    "email": "email@example.com",
     "password": "password"
 }
 ```

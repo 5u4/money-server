@@ -28,20 +28,30 @@ class UserService
      * Get user in Neo4J, create one if not found
      *
      * @param string $name
-     * @return NeoUser
+     * @return null|object
      * @throws \Exception
      */
-    public function getNeoUser(string $name): NeoUser
+    public function getNeoUser(int $id)
     {
         $userRepo = $this->entityManager->getRepository(NeoUser::class);
 
-        $user = $userRepo->findOneBy(['name' => $name]);
+        $user = $userRepo->findOneById($id);
 
-        if (!$user) {
-            $user = new NeoUser($name);
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-        }
+        return $user;
+    }
+
+    /**
+     * @param string $name
+     * @return NeoUser
+     * @throws \Exception
+     */
+    public function createNeoUser(string $name): NeoUser
+    {
+        $user = new NeoUser($name);
+
+        $this->entityManager->persist($user);
+
+        $this->entityManager->flush();
 
         return $user;
     }

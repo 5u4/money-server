@@ -37,13 +37,16 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        $userGraphId = $this->authService->getUserGraphIdByName($request->name);
+        $userGraphId = $this->authService->getUserGraphIdByEmail($request->email);
+
         /* Login Successfully */
-        if ($access_token = $this->authService->login($request->name, $request->password)) {
+        if ($access_token = $this->authService->login($request->email, $request->password)) {
             $this->logService->log($userGraphId, Log::LOGIN, json_encode([
                 'success' => true,
                 'ip' => request()->ip()
             ]));
+
+            $this->authService->getCurrentUser()->ip = request()->ip();
 
             return response()->json(['data' => [
                 'access_token' => $access_token

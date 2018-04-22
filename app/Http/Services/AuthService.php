@@ -21,9 +21,14 @@ class AuthService
         $this->entityManager = $entityManager;
     }
 
-    public function login(string $name, string $password)
+    /**
+     * @param string $email
+     * @param string $password
+     * @return null|string
+     */
+    public function login(string $email, string $password)
     {
-        if (Auth::attempt(['name' => $name, 'password' => $password])) {
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
             return $this->refreshToken();
         } else {
             return null;
@@ -63,16 +68,18 @@ class AuthService
     }
 
     /**
-     * Get a user by the name
+     * Get a user by the email
      *
-     * @param string $name
+     * @param string $email
      * @return int
      */
-    public function getUserGraphIdByName(string $name): int
+    public function getUserGraphIdByEmail(string $email): int
     {
         $userRepo = $this->entityManager->getRepository(NeoUser::class);
 
-        $user = $userRepo->findOneBy(['name' => $name]);
+        $user = User::where('email', $email)->first();
+
+        $user = $userRepo->findOneById($user->graph_id);
 
         return $user->getId();
     }
