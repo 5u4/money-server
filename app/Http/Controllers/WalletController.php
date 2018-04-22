@@ -8,6 +8,7 @@ use App\Http\Services\WalletService;
 use App\Models\Neo\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class WalletController extends Controller
@@ -50,7 +51,7 @@ class WalletController extends Controller
         DB::transaction(function () use ($request) {
             $walletId = $this->walletService->createWallet($request->name, $request->balance);
 
-            $this->logService->log(Log::CREATE_WALLET, json_encode([
+            $this->logService->log(Auth::user()->graph_id, Log::CREATE_WALLET, json_encode([
                 'wallet_id' => $walletId
             ]));
         });

@@ -54,16 +54,17 @@ class LogService
     }
 
     /**
+     * @param int $userGraphId
      * @param string $action
      * @param string|null $data
      * @throws \Exception
      */
-    public function log(string $action, string $data = null)
+    public function log(int $userGraphId, string $action, string $data = null)
     {
         /* Get User */
-        if (!$user = $this->authService->getCurrentUser()) {
-            return;
-        }
+        $userRepo = $this->entityManager->getRepository(User::class);
+
+        $user = $userRepo->findOneById($userGraphId);
 
         /* Create Log */
         $log = new Log($action, $data);
@@ -71,10 +72,6 @@ class LogService
         $this->entityManager->persist($log);
 
         /* Add Log to User */
-        $userRepo = $this->entityManager->getRepository(User::class);
-
-        $user = $userRepo->findOneById($user->graph_id);
-
         $user->getLogs()->add($log);
 
         $this->entityManager->flush();

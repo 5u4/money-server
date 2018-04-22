@@ -16,10 +16,15 @@ class Log
     |--------------------------------------------------------------------------
     | Action Constants
     |--------------------------------------------------------------------------
-    |
-    |  - Wallet
-    |
     */
+
+    /* Auth */
+    public const LOGIN = 'LOGIN';
+    public const LOGOUT = 'LOGOUT';
+
+    /* User */
+    public const CREATE_USER = 'CREATE_USER';
+    public const DELETE_USER = 'DELETE_USER';
 
     /* Wallet */
     public const CREATE_WALLET = 'CREATE_WALLET';

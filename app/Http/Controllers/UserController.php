@@ -3,23 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\Create as CreateRequest;
+use App\Http\Services\LogService;
 use App\Http\Services\UserService;
+use App\Models\Neo\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     /** @var UserService $userService */
     private $userService;
+    /** @var LogService $logService */
+    private $logService;
 
     /**
      * UserController constructor.
      * @param UserService $userService
+     * @param LogService $logService
      */
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, LogService $logService)
     {
         $this->userService = $userService;
+        $this->logService = $logService;
     }
 
     /**
@@ -40,6 +47,11 @@ class UserController extends Controller
                 $request->email,
                 $request->password
             );
+
+            $this->logService->log($neoUser->getId(), Log::CREATE_USER, json_encode([
+                'name' => $request->name,
+                'email' => $request->email
+            ]));
         });
 
         return response()->json([
@@ -54,7 +66,15 @@ class UserController extends Controller
      */
     public function destroy(): JsonResponse
     {
-        $success = $this->userService->softDeleteCurrentUser();
+        $success = DB::transaction(function () {
+            $success = $this->userService->softDeleteCurrentUser();
+
+            $this->logService->log(Auth::user()->graph_id, Log::DELETE_USER, json_encode([
+                'ip' => request()->ip()
+            ]));
+
+            return $success;
+        });
 
         return response()->json(['success' => $success]);
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\RDB\User;
+use App\Models\Neo\User as NeoUser;
 use GraphAware\Neo4j\OGM\EntityManager;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,5 +60,20 @@ class AuthService
         } else {
             return null;
         }
+    }
+
+    /**
+     * Get a user by the name
+     *
+     * @param string $name
+     * @return int
+     */
+    public function getUserGraphIdByName(string $name): int
+    {
+        $userRepo = $this->entityManager->getRepository(NeoUser::class);
+
+        $user = $userRepo->findOneBy(['name' => $name]);
+
+        return $user->getId();
     }
 }

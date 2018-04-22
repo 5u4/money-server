@@ -3,22 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\AuthService;
+use App\Http\Services\LogService;
+use App\Models\Neo\Log;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Auth\Login as LoginRequest;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
     /** @var AuthService $authService */
     private $authService;
+    /** * @var LogService $logService */
+    private $logService;
 
     /**
      * AuthController constructor.
      * @param AuthService $authService
+     * @param LogService $logService
      */
-    public function __construct(AuthService $authService)
+    public function __construct(AuthService $authService, LogService $logService)
     {
         $this->authService = $authService;
+        $this->logService = $logService;
     }
 
     /**
@@ -26,14 +33,30 @@ class AuthController extends Controller
      *
      * @param LoginRequest $request
      * @return JsonResponse
+     * @throws \Exception
      */
     public function login(LoginRequest $request): JsonResponse
     {
+        $userGraphId = $this->authService->getUserGraphIdByName($request->name);
+        /* Login Successfully */
         if ($access_token = $this->authService->login($request->name, $request->password)) {
+            $this->logService->log($userGraphId, Log::LOGIN, json_encode([
+                'success' => true,
+                'ip' => request()->ip()
+            ]));
+
             return response()->json(['data' => [
                 'access_token' => $access_token
             ], 'success' => true], Response::HTTP_OK);
-        } else {
+        }
+
+        /* Wrong Credentials */
+        else {
+            $this->logService->log($userGraphId, Log::LOGIN, json_encode([
+                'success' => false,
+                'ip' => request()->ip()
+            ]));
+
             return response()->json([
                 'success' => false
             ], Response::HTTP_BAD_REQUEST);
@@ -44,15 +67,26 @@ class AuthController extends Controller
      * Logout current user
      *
      * @return JsonResponse
+     * @throws \Exception
      */
     public function logout(): JsonResponse
     {
+        /* Logout User */
         if ($currentUser = $this->authService->getCurrentUser()) {
-            $this->authService->refreshToken();
+            DB::transaction(function () use ($currentUser) {
+                $this->authService->refreshToken();
+                $this->logService->log($currentUser->graph_id, Log::LOGOUT, json_encode([
+                    'ip' => request()->ip()
+                ]));
+            });
+
             return response()->json([
                 'success' => true
             ], Response::HTTP_OK);
-        } else {
+        }
+
+        /* Cannot Get User */
+        else {
             return response()->json([
                 'success' => false
             ], Response::HTTP_BAD_REQUEST);
