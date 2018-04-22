@@ -45,7 +45,8 @@ class WalletService
             $wallets[] = [
                 'id' => $wallet->getId(),
                 'name' => $wallet->getName(),
-                'owner' => $owner->getName()
+                'owner' => $owner->getName(),
+                'balance' => $wallet->getBalance()
             ];
         }
 
@@ -54,9 +55,10 @@ class WalletService
 
     /**
      * @param string $name
+     * @param float|null $balance
      * @throws \Exception
      */
-    public function createWallet(string $name): void
+    public function createWallet(string $name, float $balance = null): void
     {
         /* Get User */
         if (!$user = $this->authService->getCurrentUser()) {
@@ -64,7 +66,7 @@ class WalletService
         }
 
         /* Create Wallet */
-        $wallet = new Wallet($name, $user->graph_id);
+        $wallet = new Wallet($name, $user->graph_id, $balance ? $balance : 0);
 
         $this->entityManager->persist($wallet);
 

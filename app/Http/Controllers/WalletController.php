@@ -40,7 +40,7 @@ class WalletController extends Controller
      */
     public function create(CreateRequest $request): JsonResponse
     {
-        $this->walletService->createWallet($request->name);
+        $this->walletService->createWallet($request->name, $request->balance);
 
         return response()->json(['success' => true], Response::HTTP_CREATED);
     }

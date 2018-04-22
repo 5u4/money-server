@@ -18,12 +18,14 @@ GET /api/v1/wallets
             {
                 "id": 3,
                 "name": "Cash",
-                "owner": "alex"
+                "owner": "alex",
+                "balance": 0
             },
             {
                 "id": 41,
                 "name": "Cash",
-                "owner": "alex"
+                "owner": "alex",
+                "balance": 20
             }
         ]
     }
@@ -35,13 +37,16 @@ GET /api/v1/wallets
 
 Required: `LOGIN`
 
+Optional: `balance`
+
 POST /api/v1/wallets
 
 ### Request
 
 ```json
 {
-	"name": "Cash"
+	"name": "Cash",
+	"balance": 0
 }
 ```
 

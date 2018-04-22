@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class Create
  * @package App\Http\Requests\Wallet
  * @property string name
+ * @property float balance
  */
 class Create extends FormRequest
 {
@@ -29,7 +30,8 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'max:255'],
+            'balance' => ['numeric']
         ];
     }
 }

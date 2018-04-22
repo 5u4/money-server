@@ -90,9 +90,9 @@ class Wallet
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getBalance(): string
+    public function getBalance(): float
     {
         return $this->balance;
     }
