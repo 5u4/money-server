@@ -32,6 +32,9 @@ class Log
     /* Store */
     public const CREATE_STORE = 'CREATE_STORE';
 
+    /* Service */
+    public const CREATE_SERVICE = 'CREATE_SERVICE';
+
     /**
      * @OGM\GraphId()
      * @var int

@@ -6,6 +6,7 @@
  - [User](user.md)
  - [Wallet](wallet.md)
  - [Store](store.md)
+ - [Service](service.md)
  - [Log](log.md)
 
 ## Notes

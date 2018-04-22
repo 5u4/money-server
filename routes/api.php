@@ -45,6 +45,12 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/', 'StoreController@create');
     });
 
+    /* Service */
+    Route::group(['prefix' => 'services', 'middleware' => 'auth:api'], function () {
+        Route::get('/', 'ServiceController@index');
+        Route::post('/', 'ServiceController@create');
+    });
+
     /* Log */
     Route::group(['prefix' => 'logs', 'middleware' => 'auth:api'], function () {
         Route::get('/', 'LogController@index');

@@ -41,6 +41,10 @@ GET /api/v1/logs
 ### Store
 
  - [CREATE_STORE](#create_store)
+
+### Service
+
+ - [CREATE_SERVICE](#create_service)
  
 ## Auth
 
@@ -121,6 +125,21 @@ GET /api/v1/logs
     "timestamp": 1524413142,
     "data": {
         "store_id": 106,
+        "ip": "127.0.0.1"
+    }
+}
+```
+
+## Service
+
+### CREATE_SERVICE
+
+```json
+{
+    "action": "CREATE_SERVICE",
+    "timestamp": 1524417648,
+    "data": {
+        "service_id": 195,
         "ip": "127.0.0.1"
     }
 }
