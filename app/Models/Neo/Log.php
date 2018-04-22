@@ -12,6 +12,18 @@ use GraphAware\Neo4j\OGM\Common\Collection;
  */
 class Log
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Action Constants
+    |--------------------------------------------------------------------------
+    |
+    |  - Wallet
+    |
+    */
+
+    /* Wallet */
+    public const CREATE_WALLET = 'CREATE_WALLET';
+
     /**
      * @OGM\GraphId()
      * @var int
@@ -31,6 +43,12 @@ class Log
     protected $timestamp;
 
     /**
+     * @OGM\Property(type="string")
+     * @var string
+     */
+    protected $data;
+
+    /**
      * @var User[]
      *
      * (:User)-[:is_logged]->(:Log)
@@ -44,11 +62,13 @@ class Log
     /**
      * Log constructor.
      * @param string $action
+     * @param string|null $data
      */
-    public function __construct(string $action)
+    public function __construct(string $action, string $data = null)
     {
         $this->action = $action;
         $this->timestamp = time();
+        $this->data = $data;
         $this->user = new Collection();
     }
 
@@ -74,6 +94,14 @@ class Log
     public function getTimestamp(): int
     {
         return $this->timestamp;
+    }
+
+    /**
+     * @return string
+     */
+    public function getData(): string
+    {
+        return $this->data;
     }
 
     /**

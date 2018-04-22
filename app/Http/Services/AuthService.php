@@ -5,11 +5,10 @@ namespace App\Http\Services;
 use App\Models\RDB\User;
 use GraphAware\Neo4j\OGM\EntityManager;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Neo\User as NeoUser;
 
 class AuthService
 {
-    /** @var EntityManager */
+    /** @var EntityManager $entityManager */
     private $entityManager;
 
     /**

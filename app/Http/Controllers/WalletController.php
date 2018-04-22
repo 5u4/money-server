@@ -3,22 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Wallet\Create as CreateRequest;
+use App\Http\Services\LogService;
 use App\Http\Services\WalletService;
+use App\Models\Neo\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class WalletController extends Controller
 {
     /** @var WalletService $walletService */
     private $walletService;
+    /**  @var LogService $logService */
+    private $logService;
 
     /**
      * WalletController constructor.
      * @param WalletService $walletService
+     * @param LogService $logService
      */
-    public function __construct(WalletService $walletService)
+    public function __construct(WalletService $walletService, LogService $logService)
     {
         $this->walletService = $walletService;
+        $this->logService = $logService;
     }
 
     /**
@@ -40,7 +47,13 @@ class WalletController extends Controller
      */
     public function create(CreateRequest $request): JsonResponse
     {
-        $this->walletService->createWallet($request->name, $request->balance);
+        DB::transaction(function () use ($request) {
+            $walletId = $this->walletService->createWallet($request->name, $request->balance);
+
+            $this->logService->log(Log::CREATE_WALLET, json_encode([
+                'wallet_id' => $walletId
+            ]));
+        });
 
         return response()->json(['success' => true], Response::HTTP_CREATED);
     }

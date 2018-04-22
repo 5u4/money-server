@@ -2,11 +2,11 @@
 
 namespace App\Http\Services;
 
+use App\Models\Neo\Log;
 use App\Models\Neo\User;
-use App\Models\Neo\Wallet;
 use GraphAware\Neo4j\OGM\EntityManager;
 
-class WalletService
+class LogService
 {
     /** @var EntityManager $entityManager */
     private $entityManager;
@@ -14,72 +14,69 @@ class WalletService
     private $authService;
 
     /**
-     * WalletService constructor.
+     * LogService constructor.
      * @param EntityManager $entityManager
      * @param AuthService $authService
      */
     public function __construct(EntityManager $entityManager, AuthService $authService)
     {
-        $this->entityManager = $entityManager;
         $this->authService = $authService;
-    }
-
-    public function getUserWallets()
-    {
-        /* Get User */
-        if (!$user = $this->authService->getCurrentUser()) {
-            return null;
-        }
-
-        /* Get User */
-        $userRepo = $this->entityManager->getRepository(User::class);
-
-        $user = $userRepo->findOneById($user->graph_id);
-
-        /* Create Wallet Objects */
-        $wallets = [];
-
-        foreach ($user->getWallets() as $wallet) {
-            $owner = $userRepo->findOneById($wallet->getOwnerGraphId());
-
-            $wallets[] = [
-                'id' => $wallet->getId(),
-                'name' => $wallet->getName(),
-                'owner' => $owner->getName(),
-                'balance' => $wallet->getBalance()
-            ];
-        }
-
-        return $wallets;
+        $this->entityManager = $entityManager;
     }
 
     /**
-     * @param string $name
-     * @param float|null $balance
-     * @return int|null
-     * @throws \Exception
+     * @return array|null
      */
-    public function createWallet(string $name, float $balance = null)
+    public function getUserLogs()
     {
         /* Get User */
         if (!$user = $this->authService->getCurrentUser()) {
             return null;
         }
 
-        /* Create Wallet */
-        $wallet = new Wallet($name, $user->graph_id, $balance ? $balance : 0);
-
-        $this->entityManager->persist($wallet);
-
-        /* Add Wallet To User */
+        /* Get User */
         $userRepo = $this->entityManager->getRepository(User::class);
 
         $user = $userRepo->findOneById($user->graph_id);
 
-        $user->getWallets()->add($wallet);
+        /* Create Log Objects */
+        $logs = [];
+
+        foreach ($user->getLogs() as $log) {
+            $logs[] = [
+                'action' => $log->getAction(),
+                'timestamp' => $log->getTimestamp(),
+                'data' => json_decode($log->getData())
+            ];
+        }
+
+        return $logs;
+    }
+
+    /**
+     * @param string $action
+     * @param string|null $data
+     * @throws \Exception
+     */
+    public function log(string $action, string $data = null)
+    {
+        /* Get User */
+        if (!$user = $this->authService->getCurrentUser()) {
+            return;
+        }
+
+        /* Create Log */
+        $log = new Log($action, $data);
+
+        $this->entityManager->persist($log);
+
+        /* Add Log to User */
+        $userRepo = $this->entityManager->getRepository(User::class);
+
+        $user = $userRepo->findOneById($user->graph_id);
+
+        $user->getLogs()->add($log);
 
         $this->entityManager->flush();
-
-        return $wallet->getId();
     }
 }

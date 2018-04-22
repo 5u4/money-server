@@ -40,4 +40,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/', 'WalletController@index');
         Route::post('/', 'WalletController@create');
     });
+
+    /* Log */
+    Route::group(['prefix' => 'logs', 'middleware' => 'auth:api'], function () {
+        Route::get('/', 'LogController@index');
+    });
 });
