@@ -51,6 +51,12 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/', 'ServiceController@create');
     });
 
+    /* Transaction */
+    Route::group(['prefix' => 'transactions', 'middleware' => 'auth:api'], function () {
+        Route::get('/', 'TransactionController@index');
+        Route::post('/', 'TransactionController@create');
+    });
+
     /* Log */
     Route::group(['prefix' => 'logs', 'middleware' => 'auth:api'], function () {
         Route::get('/', 'LogController@index');

@@ -35,6 +35,9 @@ class Log
     /* Service */
     public const CREATE_SERVICE = 'CREATE_SERVICE';
 
+    /* Transaction */
+    public const CREATE_TRANSACTION = 'CREATE_TRANSACTION';
+
     /**
      * @OGM\GraphId()
      * @var int

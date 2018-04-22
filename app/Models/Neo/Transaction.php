@@ -113,33 +113,33 @@ class Transaction
     }
 
     /**
-     * @return User[]
+     * @return User
      */
-    public function getUser(): array
+    public function getUser()
     {
         return $this->user;
     }
 
     /**
-     * @return Wallet[]
+     * @return Wallet
      */
-    public function getWallet(): array
+    public function getWallet()
     {
         return $this->wallet;
     }
 
     /**
-     * @return Store[]
+     * @return Store
      */
-    public function getStore(): array
+    public function getStore()
     {
         return $this->store;
     }
 
     /**
-     * @return Service[]
+     * @return Service
      */
-    public function getService(): array
+    public function getService()
     {
         return $this->service;
     }

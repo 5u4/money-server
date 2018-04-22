@@ -45,7 +45,11 @@ GET /api/v1/logs
 ### Service
 
  - [CREATE_SERVICE](#create_service)
- 
+
+### Transaction
+
+ - [CREATE_TRANSACTION](#create_transaction)
+
 ## Auth
 
 ### LOGIN
@@ -139,6 +143,24 @@ GET /api/v1/logs
     "action": "CREATE_SERVICE",
     "timestamp": 1524417648,
     "data": {
+        "service_id": 195,
+        "ip": "127.0.0.1"
+    }
+}
+```
+
+## Transaction
+
+### CREATE_TRANSACTION
+
+```json
+{
+    "action": "CREATE_TRANSACTION",
+    "timestamp": 1524423005,
+    "data": {
+        "transaction_id": 147,
+        "wallet_id": 107,
+        "store_id": 3,
         "service_id": 195,
         "ip": "127.0.0.1"
     }
