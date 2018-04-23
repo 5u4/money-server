@@ -1,7 +1,5 @@
 <p align="center"><img src="https://github.com/senhungwong/money-server/blob/master/docs/logo/logo.png"></p>
 
----
-
 ## Description
 
 The project is a [Laravel](https://laravel.com/) back-end accounting tool.
