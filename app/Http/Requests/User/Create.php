@@ -31,7 +31,7 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:users', 'string', 'max:255', 'alpha_dash'],
+            'name' => ['required', 'string', 'max:255', 'alpha_dash'],
             'email' => ['required', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'max:255', 'min:6'],
         ];

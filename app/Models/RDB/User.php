@@ -13,6 +13,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property int graph_id
  * @property string name
  * @property string email
+ * @property string stores
+ * @property string services
  * @property string password
  * @property string api_token
  * @property string ip
@@ -39,7 +41,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'graph_id', 'name', 'email', 'password', 'api_token', 'ip'
+        'graph_id', 'name', 'email', 'stores', 'services', 'password', 'api_token', 'ip'
     ];
 
     /**
@@ -48,6 +50,28 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'api_token', 'ip'
+        'stores', 'services', 'password', 'api_token', 'ip'
     ];
+
+    /**
+     * Check if user has store
+     *
+     * @param int $storeId
+     * @return bool
+     */
+    public function hasStore(int $storeId): bool
+    {
+        return array_has(json_decode($this->stores), $storeId);
+    }
+
+    /**
+     * Check if user has service
+     *
+     * @param int $serviceId
+     * @return bool
+     */
+    public function hasService(int $serviceId): bool
+    {
+        return array_has(json_decode($this->services), $serviceId);
+    }
 }

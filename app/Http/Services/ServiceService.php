@@ -25,6 +25,17 @@ class ServiceService
     }
 
     /**
+     * @param int $serviceId
+     * @return Service
+     */
+    public function getService(int $serviceId): Service
+    {
+        $serviceRepo = $this->entityManager->getRepository(Service::class);
+
+        return $serviceRepo->findOneById($serviceId);
+    }
+
+    /**
      * @return array|null
      */
     public function getUserServices()

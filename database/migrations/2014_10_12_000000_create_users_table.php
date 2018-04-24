@@ -18,6 +18,8 @@ class CreateUsersTable extends Migration
             $table->bigInteger('graph_id')->unsigned();
             $table->string('name', 60);
             $table->string('email', 60)->unique();
+            $table->json('stores')->default('[]');
+            $table->json('services')->default('[]');
             $table->string('password', 60);
             $table->string('api_token', 190)->unique();
             $table->string('ip', 15);

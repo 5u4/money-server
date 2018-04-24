@@ -2,17 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\AuthService;
 use App\Http\Services\LogService;
+use App\Http\Services\ServiceService;
+use App\Http\Services\StoreService;
 use App\Http\Services\TransactionService;
 use App\Http\Requests\Transaction\Create as CreateRequest;
 use App\Models\Neo\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Auth;
 
 class TransactionController extends Controller
 {
+    /** @var AuthService $authService */
+    private $authService;
+    /** @var StoreService $storeService */
+    private $storeService;
+    /** @var ServiceService $serviceService */
+    private $serviceService;
     /** @var TransactionService $transactionService */
     private $transactionService;
     /**  @var LogService $logService */
@@ -20,13 +28,24 @@ class TransactionController extends Controller
 
     /**
      * WalletController constructor.
+     * @param AuthService $authService
+     * @param StoreService $storeService
+     * @param ServiceService $serviceService
      * @param TransactionService $transactionService
      * @param LogService $logService
      */
-    public function __construct(TransactionService $transactionService, LogService $logService)
-    {
+    public function __construct(
+        AuthService $authService,
+        StoreService $storeService,
+        ServiceService $serviceService,
+        TransactionService $transactionService,
+        LogService $logService
+    ) {
         $this->transactionService = $transactionService;
         $this->logService = $logService;
+        $this->authService = $authService;
+        $this->storeService = $storeService;
+        $this->serviceService = $serviceService;
     }
 
     /**
@@ -44,28 +63,35 @@ class TransactionController extends Controller
     /**
      * @param CreateRequest $request
      * @return JsonResponse
+     * @throws \Exception
      */
     public function create(CreateRequest $request): JsonResponse
     {
-        DB::transaction(function () use ($request) {
-            $transactionId = $this->transactionService->createTransaction($request->amount, $request->wallet_id);
+        $user = $this->authService->getCurrentUser();
 
-            if ($request->store_id) {
-                $this->transactionService->transactionInStore($transactionId, $request->store_id);
-            }
+        $transaction = $this->transactionService->createTransaction($request->amount, $request->wallet_id);
 
-            if ($request->service_id) {
-                $this->transactionService->transactionOnService($transactionId, $request->service_id);
-            }
+        /* Set Store */
+        $storeId = $request->store_id;
+        if ($storeId && $user->hasStore($storeId)) {
+            $store = $this->storeService->getStore($storeId);
+            $transaction->setStore($store);
+        }
 
-            $this->logService->log(Auth::user()->graph_id, Log::CREATE_TRANSACTION, json_encode([
-                'transaction_id' => $transactionId,
-                'wallet_id' => $request->wallet_id,
-                'store_id' => $request->store_id,
-                'service_id' => $request->service_id,
-                'ip' => request()->ip()
-            ]));
-        });
+        /* Set Service */
+        $serviceId = $request->service_id;
+        if ($serviceId && $user->hasService($serviceId)) {
+            $service = $this->serviceService->getService($serviceId);
+            $transaction->setService($service);
+        }
+
+        $this->logService->log(Auth::user()->getGraphId(), Log::CREATE_TRANSACTION, json_encode([
+            'transaction_id' => $transaction->getId(),
+            'wallet_id' => $request->wallet_id,
+            'store_id' => $request->store_id,
+            'service_id' => $request->service_id,
+            'ip' => request()->ip()
+        ]));
 
         return response()->json(['success' => true], Response::HTTP_CREATED);
     }

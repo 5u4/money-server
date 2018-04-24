@@ -25,6 +25,17 @@ class StoreService
     }
 
     /**
+     * @param int $storeId
+     * @return Store
+     */
+    public function getStore(int $storeId): Store
+    {
+        $storeRepo = $this->entityManager->getRepository(Store::class);
+
+        return $storeRepo->findOneById($storeId);
+    }
+
+    /**
      * @return array|null
      */
     public function getUserStores()
