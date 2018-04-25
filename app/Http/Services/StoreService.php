@@ -80,7 +80,11 @@ class StoreService
 
         $this->entityManager->persist($store);
 
+        $this->entityManager->flush();
+
         /* Add Store To User */
+        $user->addStore($store->getId());
+
         $userRepo = $this->entityManager->getRepository(User::class);
 
         $user = $userRepo->findOneById($user->graph_id);

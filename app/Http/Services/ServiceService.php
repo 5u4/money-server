@@ -80,7 +80,11 @@ class ServiceService
 
         $this->entityManager->persist($service);
 
+        $this->entityManager->flush();
+
         /* Add Service To User */
+        $user->addService($service->getId());
+
         $userRepo = $this->entityManager->getRepository(User::class);
 
         $user = $userRepo->findOneById($user->graph_id);

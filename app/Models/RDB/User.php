@@ -65,6 +65,21 @@ class User extends Authenticatable
     }
 
     /**
+     * Add store id to user
+     *
+     * @param int $storeId
+     */
+    public function addStore(int $storeId)
+    {
+        if (!$this->hasStore($storeId)) {
+            $stores = json_decode($this->stores);
+            $stores[] = $storeId;
+            $this->stores = json_encode($stores);
+            $this->save();
+        }
+    }
+
+    /**
      * Check if user has service
      *
      * @param int $serviceId
@@ -73,5 +88,20 @@ class User extends Authenticatable
     public function hasService(int $serviceId): bool
     {
         return array_has(json_decode($this->services), $serviceId);
+    }
+
+    /**
+     * Add service id to user
+     *
+     * @param int $serviceId
+     */
+    public function addService(int $serviceId)
+    {
+        if (!$this->hasService($serviceId)) {
+            $services = json_decode($this->services);
+            $services[] = $serviceId;
+            $this->services = json_encode($services);
+            $this->save();
+        }
     }
 }
